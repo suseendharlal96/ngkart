@@ -1,0 +1,30 @@
+<div>
+  <form (ngSubmit)="submit($event)" class="form-container">
+    <div>
+      <label for="email">
+        <input
+          type="text"
+          id="email"
+          [(ngModel)]="form.email"
+          name="email"
+          #email="ngModel"
+        />
+      </label>
+    </div>
+    <div>
+      <label for="password">
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="form.password"
+          #password="ngModel"
+          name="password"
+        />
+      </label>
+    </div>
+    <div class="btn-container">
+      <button>Switch to {{ isSignup ? "Signin" : "Signup" }}</button>
+      <button type="submit">{{ isSignup ? "Signup" : "Signin" }}</button>
+    </div>
+  </form>
+</div>
