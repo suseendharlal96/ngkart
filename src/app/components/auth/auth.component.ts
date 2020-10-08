@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+
+import { Subscription } from 'rxjs';
+
 import { FormModal } from 'src/app/models/form';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -8,7 +12,10 @@ import { FormModal } from 'src/app/models/form';
   styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit {
-  constructor() {}
+  authSubscription: Subscription;
+  loading: boolean;
+  passNotMatch: boolean = true;
+  constructor(private authService: AuthService) {}
 
   isFormSubmitted: boolean;
   form: FormModal;
@@ -29,11 +36,40 @@ export class AuthComponent implements OnInit {
   }
 
   submit(authForm: NgForm): void {
+    console.log(authForm);
     this.isFormSubmitted = true;
     if (authForm.valid) {
-      console.log('valid');
+      this.loading = true;
+      let url = 'signin';
+      if (this.isSignup) {
+        url = 'signup';
+        console.log(authForm.value.password);
+        console.log(authForm.value.confirmpassword);
+        this.passNotMatch =
+          authForm.value.password === authForm.value.confirmpassword;
+        console.log(this.passNotMatch);
+        if (!this.passNotMatch) {
+          return;
+        }
+      }
+      this.authSubscription = this.authService
+        .authenticate(this.form, url)
+        .subscribe(
+          (res) => {
+            this.loading = false;
+            console.log(res);
+            this.authService.setAuthData(res);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
     } else {
       console.log(authForm);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.authSubscription.unsubscribe();
   }
 }

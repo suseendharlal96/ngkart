@@ -33,13 +33,15 @@
     <div [ngStyle]="{ display: isSignup ? 'block' : 'none' }">
       <label for="confirmpassword">Confirm Password</label>
       <input
-        type="confirmpassword"
+        type="password"
         id="confirmpassword"
         [(ngModel)]="form.confirmpassword"
         #confirmpassword="ngModel"
         name="confirmpassword"
-        required
-        [class.inputerror]="isFormSubmitted && confirmpassword.invalid"
+        [required]="isSignup"
+        [class.inputerror]="
+          isFormSubmitted && (confirmpassword.invalid || !passNotMatch)
+        "
       />
     </div>
     <p
@@ -47,6 +49,9 @@
       *ngIf="isSignup && isFormSubmitted && confirmpassword.invalid"
     >
       Required Field.
+    </p>
+    <p class="error" *ngIf="isSignup && isFormSubmitted && !passNotMatch">
+      Passwords do not match.
     </p>
     <button class="btn-mode" type="button" (click)="changeMode()">
       Switch to {{ isSignup === true ? "Signin" : "Signup" }}
