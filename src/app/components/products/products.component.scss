@@ -1,0 +1,43 @@
+.products-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  .pages {
+    margin-bottom: 15px;
+  }
+  .limit {
+    margin-bottom: 15px;
+  }
+  .limit::before {
+    content: "Items per page";
+    margin-right: 5px;
+  }
+}
+select {
+  width: 60px;
+}
+.page-btn {
+  margin: 0 5px;
+  background-color: rgb(79, 79, 216);
+  color: #ffffff;
+  cursor: pointer;
+  border-radius: 5px;
+  &:hover {
+    background-color: rgb(79, 216, 90);
+    color: #000000;
+  }
+  &:disabled {
+    background-color: rgb(155, 158, 155);
+    color: #ffffff;
+    cursor: no-drop;
+  }
+}

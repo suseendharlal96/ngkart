@@ -1,0 +1,62 @@
+<div [ngStyle]="{ 'text-align': 'center' }">
+  <ng-template [ngIf]="products && products.length && paginationInfo">
+    <div class="pagination-container">
+      <div class="pages">
+        <ng-template [ngIf]="paginationInfo.prevPage">
+          <button class="page-btn" (click)="setPage(activePage - 1)">
+            Prev
+          </button>
+        </ng-template>
+        <ng-container *ngFor="let page of totalPages; index as i">
+          <button
+            class="page-btn"
+            [disabled]="activePage === i + 1"
+            (click)="setPage(i + 1)"
+          >
+            {{ i + 1 }}
+          </button>
+        </ng-container>
+        <ng-template [ngIf]="paginationInfo.nextPage">
+          <button class="page-btn" (click)="setPage(activePage + 1)">
+            Next
+          </button>
+        </ng-template>
+      </div>
+      <div class="limit">
+        <select (change)="changeLimit()" [(ngModel)]="currentLimit">
+          <option value="" disabled>Items per page</option>
+          <option value="2">2</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+        </select>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template [ngIf]="!loading" [ngIfElse]="loadingTemp">
+    <ng-template
+      [ngIf]="products && products.length && paginationInfo"
+      [ngIfElse]="nodata"
+    >
+      <div class="products-container">
+        <ng-container *ngFor="let product of products; trackBy: trackProduct">
+          <app-product [product]="product"></app-product>
+        </ng-container>
+      </div>
+    </ng-template>
+  </ng-template>
+
+  <ng-template #loadingTemp>
+    <p class="loading">Getting current data..⏳</p>
+    <ng-template [ngIf]="products && products.length">
+      <div class="products-container">
+        <ng-container *ngFor="let product of products; trackBy: trackProduct">
+          <app-product [product]="product"></app-product>
+        </ng-container>
+      </div>
+    </ng-template>
+  </ng-template>
+
+  <ng-template #nodata>
+    <p>No data found...</p>
+  </ng-template>
+</div>

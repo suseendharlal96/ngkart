@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
@@ -15,7 +16,7 @@ export class AuthComponent implements OnInit {
   authSubscription: Subscription;
   loading: boolean;
   passNotMatch: boolean = true;
-  constructor(private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   isFormSubmitted: boolean;
   form: FormModal;
@@ -59,8 +60,10 @@ export class AuthComponent implements OnInit {
             this.loading = false;
             console.log(res);
             this.authService.setAuthData(res);
+            this.router.navigate(['/']);
           },
           (error) => {
+            this.loading = false;
             console.log(error);
           }
         );
@@ -70,6 +73,8 @@ export class AuthComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.authSubscription.unsubscribe();
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
   }
 }

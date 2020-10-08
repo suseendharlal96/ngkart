@@ -53,11 +53,24 @@
     <p class="error" *ngIf="isSignup && isFormSubmitted && !passNotMatch">
       Passwords do not match.
     </p>
-    <button class="btn-mode" type="button" (click)="changeMode()">
-      Switch to {{ isSignup === true ? "Signin" : "Signup" }}
+    <button
+      class="btn-mode"
+      type="button"
+      (click)="changeMode()"
+      [disabled]="loading"
+    >
+      Switch to {{ isSignup ? "Signin" : "Signup" }}
     </button>
-    <button type="submit" class="btn-primary">
-      {{ isSignup === true ? "Signup" : "Signin" }}
+    <button type="submit" class="btn-primary" [disabled]="loading">
+      {{
+        isSignup
+          ? loading
+            ? "Signing up.."
+            : "Signup"
+          : loading
+          ? "Signing in.."
+          : "Signin"
+      }}
     </button>
   </form>
 </div>

@@ -12,10 +12,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   authenticate(formData, url): Observable<any> {
-    return this.http.post(
-      `https://node-shop-cart.herokuapp.com/user/${url}`,
-      formData
-    );
+    return this.http.post(`user/${url}`, formData);
   }
 
   setAuthData(data): void {
