@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { FormModal } from 'src/app/models/form';
 
 @Component({
@@ -8,15 +9,31 @@ import { FormModal } from 'src/app/models/form';
 })
 export class AuthComponent implements OnInit {
   constructor() {}
+
+  isFormSubmitted: boolean;
   form: FormModal;
+  isSignup: boolean;
+
   ngOnInit(): void {
+    this.isSignup = false;
     this.form = {
       email: '',
       password: '',
+      confirmpassword: '',
     };
   }
-  submit(e: Event): void {
-    e.preventDefault();
-    console.log(this.form);
+
+  changeMode(): void {
+    this.isSignup = !this.isSignup;
+    this.isFormSubmitted = false;
+  }
+
+  submit(authForm: NgForm): void {
+    this.isFormSubmitted = true;
+    if (authForm.valid) {
+      console.log('valid');
+    } else {
+      console.log(authForm);
+    }
   }
 }

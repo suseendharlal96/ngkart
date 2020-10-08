@@ -1,30 +1,58 @@
-<div>
-  <form (ngSubmit)="submit($event)" class="form-container">
+<div class="form-container">
+  <form #authForm="ngForm" (ngSubmit)="submit(authForm)" novalidate>
     <div>
-      <label for="email">
-        <input
-          type="text"
-          id="email"
-          [(ngModel)]="form.email"
-          name="email"
-          #email="ngModel"
-        />
-      </label>
+      <label for="email"> Email</label>
+      <input
+        type="text"
+        id="email"
+        [(ngModel)]="form.email"
+        name="email"
+        #email="ngModel"
+        [class.inputerror]="isFormSubmitted && email.invalid"
+        required
+      />
     </div>
+    <p class="error" *ngIf="isFormSubmitted && email.invalid">
+      Required Field.
+    </p>
     <div>
-      <label for="password">
-        <input
-          type="password"
-          id="password"
-          [(ngModel)]="form.password"
-          #password="ngModel"
-          name="password"
-        />
-      </label>
+      <label for="password"> Password</label>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="form.password"
+        #password="ngModel"
+        [class.inputerror]="isFormSubmitted && password.invalid"
+        name="password"
+        required
+      />
     </div>
-    <div class="btn-container">
-      <button>Switch to {{ isSignup ? "Signin" : "Signup" }}</button>
-      <button type="submit">{{ isSignup ? "Signup" : "Signin" }}</button>
+    <p class="error" *ngIf="isFormSubmitted && password.invalid">
+      Required Field.
+    </p>
+    <div [ngStyle]="{ display: isSignup ? 'block' : 'none' }">
+      <label for="confirmpassword">Confirm Password</label>
+      <input
+        type="confirmpassword"
+        id="confirmpassword"
+        [(ngModel)]="form.confirmpassword"
+        #confirmpassword="ngModel"
+        name="confirmpassword"
+        required
+        [class.inputerror]="isFormSubmitted && confirmpassword.invalid"
+      />
     </div>
+    <p
+      class="error"
+      *ngIf="isSignup && isFormSubmitted && confirmpassword.invalid"
+    >
+      Required Field.
+    </p>
+    <button class="btn-mode" type="button" (click)="changeMode()">
+      Switch to {{ isSignup === true ? "Signin" : "Signup" }}
+    </button>
+    <button type="submit" class="btn-primary">
+      {{ isSignup === true ? "Signup" : "Signin" }}
+    </button>
   </form>
 </div>
