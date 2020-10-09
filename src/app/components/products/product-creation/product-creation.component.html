@@ -1,0 +1,80 @@
+<div class="modal-container">
+  <span (click)="cancel()" class="close">X</span>
+  <div *ngIf="!delProduct; else deleteTemplate" class="form-container">
+    <form novalidate>
+      <div>
+        <label for="name">Product name</label>
+        <input
+          type="text"
+          id="name"
+          [(ngModel)]="editProduct ? editProduct.name : form.name"
+          name="name"
+          #name="ngModel"
+          required
+        />
+      </div>
+      <!-- <p class="error" *ngIf="isFormSubmitted && name.invalid">
+        Required Field.
+      </p> -->
+      <div>
+        <label for="price"> Price</label>
+        <input
+          type="number"
+          id="price"
+          [(ngModel)]="editProduct ? editProduct.price : form.price"
+          #price="ngModel"
+          name="price"
+          required
+        />
+      </div>
+      <!-- <p class="error" *ngIf="isFormSubmitted && price.invalid">
+      Required Field.
+    </p> -->
+      <div>
+        <label for="image">Image URL</label>
+        <input
+          type="text"
+          id="image"
+          [(ngModel)]="editProduct ? editProduct.image : form.image"
+          #image="ngModel"
+          name="image"
+          required
+        />
+      </div>
+      <div>
+        <label for="description">Description</label>
+        <textarea
+          name="description"
+          [(ngModel)]="editProduct ? editProduct.description : form.description"
+          required
+          #description="ngModel"
+          id=""
+          cols="48"
+          rows="10"
+        ></textarea>
+      </div>
+      <!-- <p
+      class="error"
+      *ngIf="isSignup && isFormSubmitted && image.invalid"
+    >
+      Required Field.
+    </p> -->
+      <div class="btn-container">
+        <button class="btn-mode" type="button" (click)="cancel()">
+          Cancel
+        </button>
+        <button type="submit" class="btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+  <ng-template #deleteTemplate>
+    <div class="del-container">
+      <h2>Delete Confirmation</h2>
+      <h4>Are you sure want to delete "{{ delProduct.name }}"</h4>
+      <div class="del-controls">
+        <button class="btn-cancel" (click)="cancel()">Cancel</button>
+        <button class="btn-delete">Delete</button>
+      </div>
+    </div>
+  </ng-template>
+</div>

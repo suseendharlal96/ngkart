@@ -10,6 +10,7 @@ import { AuthComponent } from './components/auth/auth.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { ProductsComponent } from './components/products/products.component';
 import { ProductComponent } from './components/products/product/product.component';
+import { ProductCreationComponent } from './components/products/product-creation/product-creation.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ProductComponent } from './components/products/product/product.componen
     NavbarComponent,
     ProductsComponent,
     ProductComponent,
+    ProductCreationComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [

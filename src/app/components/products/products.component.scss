@@ -1,3 +1,7 @@
+.main-container {
+  padding: 0 15px;
+  text-align: center;
+}
 .products-container {
   display: flex;
   justify-content: space-evenly;
@@ -40,4 +44,21 @@ select {
     color: #ffffff;
     cursor: no-drop;
   }
+}
+.new {
+  background-color: #4f4fd8;
+  color: #ffffff;
+  border-radius: 5px;
+  font-size: 1rem;
+  padding: 5px;
+  cursor: pointer;
+}
+[mytooltip]:hover::after {
+  content: attr(mytooltip);
+  background-color: #4f4fd8;
+  color: #ffffff;
+  position: absolute;
+  top: 40px;
+  border-radius: 5px;
+  padding: 5px;
 }

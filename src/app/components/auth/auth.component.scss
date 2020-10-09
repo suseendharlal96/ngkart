@@ -27,6 +27,12 @@ input {
 input:focus {
   background-color: #e8f0fe;
 }
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
 button {
   margin-top: 20px;
   min-width: 10%;
@@ -35,7 +41,6 @@ button {
   cursor: pointer;
 
   &.btn-mode {
-    margin-right: 180px;
     color: #ffffff;
     background-color: rgb(228, 22, 22);
     &:disabled {

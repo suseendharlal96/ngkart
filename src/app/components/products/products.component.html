@@ -1,4 +1,4 @@
-<div [ngStyle]="{ 'text-align': 'center' }">
+<div class="main-container">
   <ng-template [ngIf]="products && products.length && paginationInfo">
     <div class="pagination-container">
       <div class="pages">
@@ -22,6 +22,14 @@
           </button>
         </ng-template>
       </div>
+      <div>
+        <span
+          mytooltip="Create new Product"
+          (click)="createProduct()"
+          class="new"
+          >+</span
+        >
+      </div>
       <div class="limit">
         <select (change)="changeLimit()" [(ngModel)]="currentLimit">
           <option value="" disabled>Items per page</option>
@@ -39,7 +47,10 @@
     >
       <div class="products-container">
         <ng-container *ngFor="let product of products; trackBy: trackProduct">
-          <app-product [product]="product"></app-product>
+          <app-product
+            (isModalOpen)="setModalContent($event)"
+            [product]="product"
+          ></app-product>
         </ng-container>
       </div>
     </ng-template>
@@ -60,3 +71,10 @@
     <p>No data found...</p>
   </ng-template>
 </div>
+<ng-container *ngIf="isModalOpen">
+  <app-product-creation
+    [delProduct]="delProduct"
+    [editProduct]="editProduct"
+    (modalOpen)="setModalContent($event)"
+  ></app-product-creation>
+</ng-container>
