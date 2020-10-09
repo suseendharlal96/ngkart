@@ -24,6 +24,7 @@
       </div>
       <div>
         <span
+        *ngIf="token"
           mytooltip="Create new Product"
           (click)="createProduct()"
           class="new"

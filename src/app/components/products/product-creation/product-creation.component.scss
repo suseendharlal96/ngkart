@@ -16,6 +16,10 @@
   align-items: center;
   padding: 1rem;
 }
+.error {
+  text-align: center;
+  color: #ff0000;
+}
 label {
   display: block;
   text-align: center;
@@ -31,6 +35,11 @@ input {
   width: 350px;
   height: 30px;
   font-size: 1.5rem;
+  &.inputerror {
+    border: 1px solid #ff0000;
+  }
+}
+textarea {
   &.inputerror {
     border: 1px solid #ff0000;
   }

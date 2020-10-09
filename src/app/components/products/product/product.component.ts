@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { ProductModel } from 'src/app/models/product';
 import { AuthService } from 'src/app/services/auth.service';
+import { ProductsService } from 'src/app/services/products.service';
 
 @Component({
   selector: 'app-product',
@@ -16,7 +17,11 @@ export class ProductComponent implements OnInit {
   creator: string = '';
   token: string = '';
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private productsService: ProductsService
+  ) {}
 
   ngOnInit(): void {
     this.token = this.authService.getAuthData()
@@ -31,11 +36,20 @@ export class ProductComponent implements OnInit {
     this.isModalOpen.emit([true, 'delete', prod]);
     this.router.navigate([`delete-product/${prod.id}`]);
   }
+
   edit(prod: ProductModel): void {
     this.isModalOpen.emit([true, 'edit', prod]);
     this.router.navigate([`edit-product/${prod.id}`]);
   }
+
   addCart(prod: ProductModel): void {
-    console.log('cart');
+    this.productsService.addToCart(prod).subscribe(
+      (res) => {
+        window.alert('Added to Cart');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 }

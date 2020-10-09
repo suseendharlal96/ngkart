@@ -1,7 +1,7 @@
 <div class="modal-container">
   <span (click)="cancel()" class="close">X</span>
   <div *ngIf="!delProduct; else deleteTemplate" class="form-container">
-    <form novalidate>
+    <form #productForm="ngForm" (ngSubmit)="submitForm(productForm)" novalidate>
       <div>
         <label for="name">Product name</label>
         <input
@@ -10,12 +10,13 @@
           [(ngModel)]="editProduct ? editProduct.name : form.name"
           name="name"
           #name="ngModel"
+          [class.inputerror]="isFormSubmitted && name.invalid"
           required
         />
+        <p class="error" *ngIf="isFormSubmitted && name.invalid">
+          Required Field.
+        </p>
       </div>
-      <!-- <p class="error" *ngIf="isFormSubmitted && name.invalid">
-        Required Field.
-      </p> -->
       <div>
         <label for="price"> Price</label>
         <input
@@ -23,13 +24,18 @@
           id="price"
           [(ngModel)]="editProduct ? editProduct.price : form.price"
           #price="ngModel"
+          [class.inputerror]="isFormSubmitted && price.invalid"
           name="price"
           required
+          min="1"
         />
+        <p
+          class="error"
+          *ngIf="isFormSubmitted && price.invalid && price.touched"
+        >
+          Required Field & must be a valid price.
+        </p>
       </div>
-      <!-- <p class="error" *ngIf="isFormSubmitted && price.invalid">
-      Required Field.
-    </p> -->
       <div>
         <label for="image">Image URL</label>
         <input
@@ -37,9 +43,13 @@
           id="image"
           [(ngModel)]="editProduct ? editProduct.image : form.image"
           #image="ngModel"
+          [class.inputerror]="isFormSubmitted && image.invalid"
           name="image"
           required
         />
+        <p class="error" *ngIf="isFormSubmitted && image.invalid">
+          Required Field.
+        </p>
       </div>
       <div>
         <label for="description">Description</label>
@@ -48,22 +58,30 @@
           [(ngModel)]="editProduct ? editProduct.description : form.description"
           required
           #description="ngModel"
+          [class.inputerror]="isFormSubmitted && description.invalid"
           id=""
           cols="48"
           rows="10"
         ></textarea>
+        <p class="error" *ngIf="isFormSubmitted && description.invalid">
+          Required Field.
+        </p>
       </div>
-      <!-- <p
-      class="error"
-      *ngIf="isSignup && isFormSubmitted && image.invalid"
-    >
-      Required Field.
-    </p> -->
       <div class="btn-container">
         <button class="btn-mode" type="button" (click)="cancel()">
           Cancel
         </button>
-        <button type="submit" class="btn-primary">Save</button>
+        <button type="submit" class="btn-primary">
+          {{
+            editProduct
+              ? loading
+                ? "Saving.."
+                : "Edit & save"
+              : loading
+              ? "Saving.."
+              : "Save"
+          }}
+        </button>
       </div>
     </form>
   </div>
@@ -73,7 +91,9 @@
       <h4>Are you sure want to delete "{{ delProduct.name }}"</h4>
       <div class="del-controls">
         <button class="btn-cancel" (click)="cancel()">Cancel</button>
-        <button class="btn-delete">Delete</button>
+        <button class="btn-delete" (click)="delConfirm()">
+          {{ loading ? "Deleting.." : "Delete" }}
+        </button>
       </div>
     </div>
   </ng-template>

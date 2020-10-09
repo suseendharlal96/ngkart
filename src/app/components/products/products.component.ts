@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ProductModel } from 'src/app/models/product';
+import { AuthService } from 'src/app/services/auth.service';
 import { ProductsService } from 'src/app/services/products.service';
 
 @Component({
@@ -19,14 +20,19 @@ export class ProductsComponent implements OnInit {
   paginationInfo: any;
   activePage: number = 1;
   currentLimit: number = 2;
+  token: string;
   constructor(
     private router: Router,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.getProducts();
     this.router.navigate(['/']);
+    this.token = this.authService.getAuthData()
+      ? this.authService.getAuthData().token
+      : '';
   }
 
   getProducts(): void {
@@ -77,6 +83,12 @@ export class ProductsComponent implements OnInit {
     }
     if (value.length > 1 && value[1] === 'edit') {
       this.editProduct = value[2];
+    }
+    if (value.length > 1 && value[1] === 'confirmDelete') {
+      this.getProducts();
+    }
+    if (value.length > 1 && value[1] === 'confirmAdded') {
+      this.getProducts();
     }
     this.isModalOpen = value[0];
     if (!value[0]) {

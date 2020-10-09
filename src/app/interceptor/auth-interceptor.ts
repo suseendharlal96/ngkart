@@ -16,7 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     // Clone the request and replace the original headers with
     // cloned headers, updated with the authorization.
-    const authReq = req.clone({
+    const apiReq = req.clone({
       url: `https://node-shop-cart.herokuapp.com/${req.url}`,
       headers:
         authData && authData.token
@@ -25,6 +25,6 @@ export class AuthInterceptor implements HttpInterceptor {
     });
 
     // send cloned request with header to the next handler.
-    return next.handle(authReq);
+    return next.handle(apiReq);
   }
 }

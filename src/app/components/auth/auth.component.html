@@ -11,10 +11,10 @@
         [class.inputerror]="isFormSubmitted && email.invalid"
         required
       />
+      <p class="error" *ngIf="isFormSubmitted && email.invalid">
+        Required Field.
+      </p>
     </div>
-    <p class="error" *ngIf="isFormSubmitted && email.invalid">
-      Required Field.
-    </p>
     <div>
       <label for="password"> Password</label>
       <input
@@ -26,10 +26,10 @@
         name="password"
         required
       />
+      <p class="error" *ngIf="isFormSubmitted && password.invalid">
+        Required Field.
+      </p>
     </div>
-    <p class="error" *ngIf="isFormSubmitted && password.invalid">
-      Required Field.
-    </p>
     <div [ngStyle]="{ display: isSignup ? 'block' : 'none' }">
       <label for="confirmpassword">Confirm Password</label>
       <input
@@ -43,17 +43,17 @@
           isFormSubmitted && (confirmpassword.invalid || !passNotMatch)
         "
       />
+      <p
+        class="error"
+        *ngIf="isSignup && isFormSubmitted && confirmpassword.invalid"
+      >
+        Required Field.
+      </p>
+      <p class="error" *ngIf="isSignup && isFormSubmitted && !passNotMatch">
+        Passwords do not match.
+      </p>
     </div>
-    <p
-      class="error"
-      *ngIf="isSignup && isFormSubmitted && confirmpassword.invalid"
-    >
-      Required Field.
-    </p>
-    <p class="error" *ngIf="isSignup && isFormSubmitted && !passNotMatch">
-      Passwords do not match.
-    </p>
-    <div class="btn-container">
+      <div class="btn-container">
       <button
         class="btn-mode"
         type="button"
