@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
-import { AuthService } from 'src/app/services/auth.service';
+import { OrderModel } from 'src/app/models/order.model';
 import { OrdersService } from 'src/app/services/orders.service';
+
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
@@ -10,20 +10,24 @@ import { OrdersService } from 'src/app/services/orders.service';
 })
 export class OrdersComponent implements OnInit {
   userId: string;
-  constructor(
-    private ordersService: OrdersService,
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  orders: Array<OrderModel>;
+  loading: boolean;
+  constructor(private ordersService: OrdersService) {}
 
   ngOnInit(): void {
-    this.userId = this.authService.getAuthData()
-      ? this.authService.getAuthData().result._id
-      : '';
-    if (!this.userId) {
-      this.router.navigate(['/']);
-    } else {
-      console.log('get orders');
-    }
+    this.loading = true;
+    this.ordersService.getOrders().subscribe(
+      (res) => {
+        this.orders = new Array<OrderModel>();
+        this.loading = false;
+        res.orders.forEach((item) => {
+          this.orders.push(item.product);
+        });
+      },
+      (error) => {
+        this.loading = false;
+        console.log(error);
+      }
+    );
   }
 }

@@ -1,1 +1,55 @@
-<p>cart works!</p>
+<div class="main-container">
+  <ng-template [ngIf]="!loading" [ngIfElse]="loadingTemp">
+    <ng-template
+      [ngIf]="actualCartItems && actualCartItems.length"
+      [ngIfElse]="nodata"
+    >
+      Total:{{ total }}
+      <div class="products-container">
+        <ng-container
+          *ngFor="let cart of actualCartItems; index as i; trackBy: trackCart"
+        >
+          <div class="product-container">
+            <h2>
+              {{ cart.name }}
+            </h2>
+            <p class="price">{{ cart.price }}</p>
+            <img [src]="cart.image" />
+            <div class="btn-container">
+              <div>
+                <button
+                  (click)="changeQuantity(i, 'decrease')"
+                  class="btn-delete"
+                  [disabled]="cart.quantity === 1"
+                >
+                  -
+                </button>
+                <input type="text" [value]="cart.quantity" min="1" disabled />
+                <button
+                  (click)="changeQuantity(i, 'increase')"
+                  class="btn-edit"
+                >
+                  +
+                </button>
+              </div>
+              <button (click)="removeCart(cart.id)" class="btn-delete">
+                Remove
+              </button>
+              <button (click)="pay(cart)" class="btn-pay">
+                {{ payLoading ? "Processing payment" : "Pay" }}
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </ng-template>
+  </ng-template>
+
+  <ng-template #loadingTemp>
+    <p class="loading">Getting cart items..⏳</p>
+  </ng-template>
+
+  <ng-template #nodata>
+    <p>Cart is empty.🙁</p>
+  </ng-template>
+</div>

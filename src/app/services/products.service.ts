@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { ProductModel } from '../models/product';
+import { ProductModel } from '../models/product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,9 +31,5 @@ export class ProductsService {
 
   deleteProduct(delId: string): Observable<any> {
     return this.http.delete(`products/${delId}`);
-  }
-
-  addToCart(body: ProductModel): Observable<any> {
-    return this.http.post(`user/cart`, body);
   }
 }

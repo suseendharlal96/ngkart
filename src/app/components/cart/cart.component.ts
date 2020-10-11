@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { CartModel } from 'src/app/models/cart.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart.service';
 
@@ -11,6 +12,11 @@ import { CartService } from 'src/app/services/cart.service';
 })
 export class CartComponent implements OnInit {
   userId: string;
+  cartItems: Array<CartModel>;
+  actualCartItems: Array<CartModel>;
+  loading: boolean;
+  total: number;
+  payLoading: boolean;
   constructor(
     private cartService: CartService,
     private authService: AuthService,
@@ -21,17 +27,83 @@ export class CartComponent implements OnInit {
     this.userId = this.authService.getAuthData()
       ? this.authService.getAuthData().result._id
       : '';
-    if (!this.userId) {
-      this.router.navigate(['/']);
+    this.getCart();
+  }
+
+  getCart(): void {
+    this.loading = true;
+    this.total = 0;
+    this.cartService.getCart(this.userId).subscribe(
+      (res) => {
+        this.loading = false;
+        console.log(res);
+        this.cartItems = new Array<CartModel>();
+        res.cart.forEach((cartItem) => {
+          this.cartItems.push(cartItem);
+        });
+        console.log(this.cartItems);
+        this.actualCartItems = [...this.cartItems];
+        let total = 0;
+        this.actualCartItems.forEach((item) => {
+          total += item.price * item.quantity;
+        });
+        this.total = total;
+      },
+      (error) => {
+        this.loading = false;
+        console.log(error);
+      }
+    );
+  }
+
+  trackCart(cart: CartModel): string {
+    return cart.id;
+  }
+
+  changeQuantity(i: number, option: string): void {
+    const a = { ...this.actualCartItems[i] };
+    if (option === 'decrease') {
+      a.quantity--;
     } else {
-      this.cartService.getCart(this.userId).subscribe(
-        (res) => {
-          console.log(res);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+      a.quantity++;
     }
+    a.price = this.cartItems[i].price * a.quantity;
+    this.actualCartItems[i] = a;
+    let total = 0;
+    this.actualCartItems.map((item, index) => {
+      if (index === i) {
+        total += item.price;
+      } else {
+        total += item.price * item.quantity;
+      }
+    });
+    this.total = total;
+  }
+
+  removeCart(id: number): void {
+    this.cartService.removeFromCart(id).subscribe(
+      (res) => {
+        console.log(res);
+        this.getCart();
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+
+  pay(cart: CartModel): void {
+    this.payLoading = true;
+    this.cartService.pay(cart).subscribe(
+      (res) => {
+        this.payLoading = false;
+        window.alert('payment received');
+        this.getCart();
+      },
+      (err) => {
+        this.payLoading = false;
+        console.log(err);
+      }
+    );
   }
 }

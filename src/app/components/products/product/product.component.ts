@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ProductModel } from 'src/app/models/product';
+import { ProductModel } from 'src/app/models/product.model';
+import { CartModel } from 'src/app/models/cart.model';
 import { AuthService } from 'src/app/services/auth.service';
-import { ProductsService } from 'src/app/services/products.service';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-product',
@@ -20,7 +21,7 @@ export class ProductComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private productsService: ProductsService
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -42,10 +43,12 @@ export class ProductComponent implements OnInit {
     this.router.navigate([`edit-product/${prod.id}`]);
   }
 
-  addCart(prod: ProductModel): void {
-    this.productsService.addToCart(prod).subscribe(
+  addCart(prod: CartModel): void {
+    this.cartService.addToCart(prod).subscribe(
       (res) => {
-        window.alert('Added to Cart');
+        if (res && res.msg) {
+          window.alert('Added to Cart');
+        }
       },
       (error) => {
         console.log(error);

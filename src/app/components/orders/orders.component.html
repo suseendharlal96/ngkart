@@ -1,1 +1,25 @@
-<p>orders works!</p>
+<div class="main-container">
+  <ng-template [ngIf]="!loading" [ngIfElse]="loadingTemp">
+    <ng-template [ngIf]="orders && orders.length" [ngIfElse]="nodata">
+      <div class="products-container">
+        <ng-container *ngFor="let order of orders">
+          <div class="product-container">
+            <h2>
+              {{ order.name }}
+            </h2>
+            <p class="price">{{ order.price }}</p>
+            <img [src]="order.image" />
+          </div>
+        </ng-container>
+      </div>
+    </ng-template>
+  </ng-template>
+
+  <ng-template #loadingTemp>
+    <p class="loading">Getting orders items..⏳</p>
+  </ng-template>
+
+  <ng-template #nodata>
+    <p>No current orders.Make some.😀</p>
+  </ng-template>
+</div>

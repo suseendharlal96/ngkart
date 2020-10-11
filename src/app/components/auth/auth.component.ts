@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
-import { FormModal } from 'src/app/models/form';
+import { FormModal } from 'src/app/models/form.model';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({

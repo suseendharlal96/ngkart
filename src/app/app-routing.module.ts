@@ -6,6 +6,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { ProductCreationComponent } from './components/products/product-creation/product-creation.component';
 import { ProductsComponent } from './components/products/products.component';
+import { AuthguardService } from './guard/auth-guard.service';
 
 const routes: Routes = [
   { path: 'auth', component: AuthComponent },
@@ -18,8 +19,12 @@ const routes: Routes = [
       { path: 'delete-product/:id', component: ProductCreationComponent },
     ],
   },
-  { path: 'cart', component: CartComponent },
-  { path: 'orders', component: OrdersComponent },
+  { path: 'cart', component: CartComponent, canActivate: [AuthguardService] },
+  {
+    path: 'orders',
+    component: OrdersComponent,
+    canActivate: [AuthguardService],
+  },
 
   {
     path: '**',

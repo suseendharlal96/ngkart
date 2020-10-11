@@ -1,0 +1,30 @@
+.main-container {
+  padding: 0 15px;
+  text-align: center;
+}
+.products-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.product-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 325px;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  box-shadow: 2px 3px;
+  padding: 5px;
+  margin: 0 20px 20px 0px;
+}
+.price::before {
+  content: "₹";
+}
+img {
+  height: 300px;
+  width: 300px;
+}
