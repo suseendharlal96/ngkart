@@ -36,12 +36,10 @@ export class CartComponent implements OnInit {
     this.cartService.getCart(this.userId).subscribe(
       (res) => {
         this.loading = false;
-        console.log(res);
         this.cartItems = new Array<CartModel>();
         res.cart.forEach((cartItem) => {
           this.cartItems.push(cartItem);
         });
-        console.log(this.cartItems);
         this.actualCartItems = [...this.cartItems];
         let total = 0;
         this.actualCartItems.forEach((item) => {
@@ -51,7 +49,6 @@ export class CartComponent implements OnInit {
       },
       (error) => {
         this.loading = false;
-        console.log(error);
       }
     );
   }
@@ -83,12 +80,9 @@ export class CartComponent implements OnInit {
   removeCart(id: number): void {
     this.cartService.removeFromCart(id).subscribe(
       (res) => {
-        console.log(res);
         this.getCart();
       },
-      (err) => {
-        console.log(err);
-      }
+      (err) => {}
     );
   }
 
@@ -102,7 +96,6 @@ export class CartComponent implements OnInit {
       },
       (err) => {
         this.payLoading = false;
-        console.log(err);
       }
     );
   }

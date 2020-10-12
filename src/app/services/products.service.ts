@@ -19,7 +19,6 @@ export class ProductsService {
   }
 
   updateProduct({ id }, form: ProductModel): Observable<any> {
-    console.log(id);
     const updateForm = {
       name: form.name,
       price: form.price,

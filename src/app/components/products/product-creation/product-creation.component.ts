@@ -52,7 +52,6 @@ export class ProductCreationComponent implements OnInit {
   }
 
   submitForm(prodForm: NgForm): void {
-    console.log(prodForm);
     this.isFormSubmitted = true;
     if (prodForm.valid) {
       this.loading = true;

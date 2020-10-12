@@ -12,12 +12,10 @@ export class CartService {
   constructor(private http: HttpClient) {}
 
   getCart(userId): Observable<any> {
-    console.log(userId);
     return this.http.get(`user/getCart/${userId}`);
   }
 
   addToCart(prod: CartModel): Observable<any> {
-    console.log(prod);
     const body = {
       _id: prod.id,
       name: prod.name,

@@ -26,7 +26,6 @@ export class OrdersComponent implements OnInit {
       },
       (error) => {
         this.loading = false;
-        console.log(error);
       }
     );
   }

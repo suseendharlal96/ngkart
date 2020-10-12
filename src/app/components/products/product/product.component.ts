@@ -50,9 +50,7 @@ export class ProductComponent implements OnInit {
           window.alert('Added to Cart');
         }
       },
-      (error) => {
-        console.log(error);
-      }
+      (error) => {}
     );
   }
 }

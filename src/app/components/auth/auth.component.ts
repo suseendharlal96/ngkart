@@ -37,18 +37,14 @@ export class AuthComponent implements OnInit {
   }
 
   submit(authForm: NgForm): void {
-    console.log(authForm);
     this.isFormSubmitted = true;
     if (authForm.valid) {
       this.loading = true;
       let url = 'signin';
       if (this.isSignup) {
         url = 'signup';
-        console.log(authForm.value.password);
-        console.log(authForm.value.confirmpassword);
         this.passNotMatch =
           authForm.value.password === authForm.value.confirmpassword;
-        console.log(this.passNotMatch);
         if (!this.passNotMatch) {
           return;
         }
@@ -58,17 +54,14 @@ export class AuthComponent implements OnInit {
         .subscribe(
           (res) => {
             this.loading = false;
-            console.log(res);
             this.authService.setAuthData(res);
             this.router.navigate(['/']);
           },
           (error) => {
             this.loading = false;
-            console.log(error);
           }
         );
     } else {
-      console.log(authForm);
     }
   }
 
